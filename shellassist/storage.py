@@ -11,3 +11,5 @@ class Storage(object):
     files_list: list of RELATIVE paths to files.
     """
     print "setup method"
+
+    
