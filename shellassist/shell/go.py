@@ -2,15 +2,17 @@ from shellassist.calendar import date_functions
 from shellassist.shell.exceptions import InvalidUserInputError
 
 class Go(object):
+
   """ Go command class
   Purpose is to change context to a certain day.
+  go <date>
   """
+
   def __init__(self, shell, arg):
     self.shell = shell
     self.arg = arg
 
   def parse(self):
-    # TODO: Should probably write unit test for this.
     split_arg = self.arg.split()
     
     if len(split_arg) == 0:
