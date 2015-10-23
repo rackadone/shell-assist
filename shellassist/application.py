@@ -1,19 +1,19 @@
 import cmd
-
 from shellassist.calendar import date_functions
 from shellassist.shell.go import Go
 from shellassist.shell.add import Add
+from shellassist.shell.list import List
 
 
 class ShellAssistCmd(cmd.Cmd):
-  
+
   def __init__(self):
     cmd.Cmd.__init__(self)
     self.current_date = date_functions.get_today_date()
-  
+
   def update_prompt(self):
     date_string = date_functions.date_string(self.current_date)
-    self.prompt = '[ ' + date_string +  ' ] > '
+    self.prompt = '[ ' + date_string + ' ] > '
 
   def preloop(self):
     print "Running Shell Assist..."
@@ -37,6 +37,9 @@ class ShellAssistCmd(cmd.Cmd):
     add = Add(self, arg)
     add.execute()
 
+  def do_ls(self, arg):
+    ls = List(self, arg)
+    ls.execute()
 
 
 def main():
