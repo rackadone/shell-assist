@@ -1,11 +1,12 @@
 from shellassist.calendar import date_functions
 from shellassist.shell.exceptions import InvalidUserInputError
 
+
 class Go(object):
 
   """ Go command class
   Purpose is to change context to a certain day.
-  go <date>
+  Usage: go <date>
   """
 
   def __init__(self, shell, arg):
@@ -14,7 +15,7 @@ class Go(object):
 
   def parse(self):
     split_arg = self.arg.split()
-    
+
     if len(split_arg) == 0:
       raise InvalidUserInputError("ERROR: No arguments received")
 
@@ -27,7 +28,7 @@ class Go(object):
 
     if len(split_date_string) != 3:
       raise InvalidUserInputError("ERROR: Invalid date argument")
-  
+
     # save parsed argument
     self.raw_day = split_date_string[1]
     self.raw_month = split_date_string[0]
@@ -49,7 +50,7 @@ class Go(object):
     try:
       # First parse arguments
       self.parse()
-    
+
       # Then validate arguments
       self.validate()
 
@@ -58,13 +59,10 @@ class Go(object):
       month = int(self.raw_month)
       year = int(self.raw_year)
 
-      self.shell.current_date = date_functions.get_date(day=day,month=month,year=year)
+      self.shell.current_date = date_functions.get_date(
+          day=day, month=month, year=year)
 
     except InvalidUserInputError as err:
       print err
     except:
       raise
-
-    
-
-    

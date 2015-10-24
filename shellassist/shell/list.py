@@ -36,7 +36,7 @@ class List(object):
       current_day = current_month.get_day(current_day_number)
 
       for activity in current_day.activities:
-        print activity.start_time + "|" + activity.end_time + "|" + activity.description
+        print activity.formatted_string()
 
     except InvalidUserInputError as err:
       print err

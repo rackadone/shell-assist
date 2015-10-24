@@ -2,6 +2,7 @@ import cmd
 from shellassist.calendar import date_functions
 from shellassist.shell.go import Go
 from shellassist.shell.add import Add
+from shellassist.shell.remove import Remove
 from shellassist.shell.list import List
 
 
@@ -36,6 +37,10 @@ class ShellAssistCmd(cmd.Cmd):
   def do_add(self, arg):
     add = Add(self, arg)
     add.execute()
+
+  def do_rm(self, arg):
+    rm = Remove(self, arg)
+    rm.execute()
 
   def do_ls(self, arg):
     ls = List(self, arg)

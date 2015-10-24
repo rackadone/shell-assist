@@ -28,6 +28,17 @@ class Add(object):
 
   def execute(self):
     try:
+      if self.arg:
+        self.execute_shorthand()
+      else:
+        self.execute_full()
+    except InvalidUserInputError as err:
+      print err
+    except:
+      raise
+
+  def execute_shorthand(self):
+    try:
       # First parse arguments
       self.parse()
 
@@ -50,6 +61,35 @@ class Add(object):
       current_day = current_month.get_day(current_day_number)
       current_day.add_activity(new_activity)
 
+      Calendar.save_year(current_year)
+      print "Activity successfuly added."
+
+    except InvalidUserInputError as err:
+      print err
+    except:
+      raise
+
+  def execute_full(self):
+    try:
+      # Query events of current day
+      current_year_number = self.shell.current_date.year
+      current_month_number = self.shell.current_date.month
+      current_day_number = self.shell.current_date.day
+
+      current_year = Calendar.load_year(current_year_number)
+      current_month = current_year.get_month(current_month_number)
+      current_day = current_month.get_day(current_day_number)
+
+      start_time = raw_input("Enter start time: ")
+      end_time = raw_input("Enter end time: ")
+      description = raw_input("Enter activity description: ")
+
+      new_activity = Activity(
+          start_time,
+          end_time,
+          description)
+
+      current_day.add_activity(new_activity)
       Calendar.save_year(current_year)
       print "Activity successfuly added."
 
