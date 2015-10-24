@@ -6,7 +6,8 @@ class Remove(object):
 
   """ Remove command class
   Remove an activity of a certain day
-  Usage: rm
+  Usage (short hand): rm <# of activity to delete>
+  Usage (standard): rm
   """
 
   def __init__(self, shell, arg):

@@ -1,13 +1,14 @@
 from shellassist.shell.exceptions import InvalidUserInputError
 from shellassist.calendar.activity import Activity
 from shellassist.calendar.calendar import Calendar
+from shellassist.calendar import time_functions
 
 
 class Add(object):
 
   """ Add command class
-  Add an activity to a certain day
-  add <start time> <end time> <event>
+  Usage (short hand): add <start time> <end time> <event>
+  Usage (standard): add
   """
 
   def __init__(self, shell, arg):
@@ -24,6 +25,11 @@ class Add(object):
       self.activity_descr = " ".join(split_arg[2:])
 
   def validate(self):
+    # try:
+    #   start_time = time_functions.parse_time(self.start_time)
+    #   end_time = time_functions.parse_time(self.end_time)
+    # except ValueError as err:
+    #   print err
     pass
 
   def execute(self):

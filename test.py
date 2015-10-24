@@ -1,6 +1,7 @@
 from shellassist.test.test_calendar import *
 from shellassist.test.test_day import *
 from shellassist.test.test_date_functions import *
+from shellassist.test.test_time_functions import *
 import unittest
 
 
@@ -13,6 +14,8 @@ suites = [
   unittest.TestLoader().loadTestsFromTestCase(ValidateDayTestCase),
   unittest.TestLoader().loadTestsFromTestCase(ValidateMonthTestCase),
   unittest.TestLoader().loadTestsFromTestCase(ValidateYearTestCase),
+
+  unittest.TestLoader().loadTestsFromTestCase(ParseTimeTestCase),
 ]
 
 alltests = unittest.TestSuite(suites)
