@@ -1,10 +1,13 @@
+from bisect import insort_left
+
+
 class Day(object):
     def __init__(self, number):
         self.number = number
         self.activities = []
 
     def add_activity(self, activity):
-        self.activities.append(activity)
+        insort_left(self.activities, activity)
 
     def remove_activity(self, n):
         """ Removes activity from activity list

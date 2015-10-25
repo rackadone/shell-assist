@@ -7,6 +7,9 @@ class Activity(object):
         self.end_time = end_time
         self.description = description
 
+    def __lt__(self, other):
+        return self.start_time < other.start_time
+
     def formatted_string(self):
         str_start_time = time_functions.time_string(self.start_time)
         str_end_time = time_functions.time_string(self.end_time)
