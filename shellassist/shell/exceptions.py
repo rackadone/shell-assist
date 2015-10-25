@@ -1,2 +1,2 @@
 class InvalidUserInputError(Exception):
-  pass
+    pass

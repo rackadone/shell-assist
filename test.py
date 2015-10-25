@@ -6,16 +6,16 @@ import unittest
 
 
 suites = [
-  unittest.TestLoader().loadTestsFromTestCase(CalendarLoadYearTestCase),
-  unittest.TestLoader().loadTestsFromTestCase(CalendarSaveYearTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(CalendarLoadYearTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(CalendarSaveYearTestCase),
 
-  unittest.TestLoader().loadTestsFromTestCase(RemoveActivityTestCase),
-  unittest.TestLoader().loadTestsFromTestCase(DateFunctionsTestCase),
-  unittest.TestLoader().loadTestsFromTestCase(ValidateDayTestCase),
-  unittest.TestLoader().loadTestsFromTestCase(ValidateMonthTestCase),
-  unittest.TestLoader().loadTestsFromTestCase(ValidateYearTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(RemoveActivityTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(DateFunctionsTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(ValidateDayTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(ValidateMonthTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(ValidateYearTestCase),
 
-  unittest.TestLoader().loadTestsFromTestCase(ParseTimeTestCase),
+    unittest.TestLoader().loadTestsFromTestCase(ParseTimeTestCase),
 ]
 
 alltests = unittest.TestSuite(suites)

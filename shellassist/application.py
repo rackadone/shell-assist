@@ -7,46 +7,45 @@ from shellassist.shell.list import List
 
 
 class ShellAssistCmd(cmd.Cmd):
+    def __init__(self):
+        cmd.Cmd.__init__(self)
+        self.current_date = date_functions.get_today_date()
 
-  def __init__(self):
-    cmd.Cmd.__init__(self)
-    self.current_date = date_functions.get_today_date()
+    def update_prompt(self):
+        date_string = date_functions.date_string(self.current_date)
+        self.prompt = '[ ' + date_string + ' ] > '
 
-  def update_prompt(self):
-    date_string = date_functions.date_string(self.current_date)
-    self.prompt = '[ ' + date_string + ' ] > '
+    def preloop(self):
+        print "Running Shell Assist..."
+        self.update_prompt()
 
-  def preloop(self):
-    print "Running Shell Assist..."
-    self.update_prompt()
+    def postcmd(self, stop, line):
+        self.update_prompt()
+        return stop
 
-  def postcmd(self, stop, line):
-    self.update_prompt()
-    return stop
+    def do_quit(self, arg):
+        quit()
 
-  def do_quit(self, arg):
-    quit()
+    def do_exit(self, arg):
+        quit()
 
-  def do_exit(self, arg):
-    quit()
+    def do_go(self, arg):
+        go = Go(self, arg)
+        go.execute()
 
-  def do_go(self, arg):
-    go = Go(self, arg)
-    go.execute()
+    def do_add(self, arg):
+        add = Add(self, arg)
+        add.execute()
 
-  def do_add(self, arg):
-    add = Add(self, arg)
-    add.execute()
+    def do_rm(self, arg):
+        rm = Remove(self, arg)
+        rm.execute()
 
-  def do_rm(self, arg):
-    rm = Remove(self, arg)
-    rm.execute()
-
-  def do_ls(self, arg):
-    ls = List(self, arg)
-    ls.execute()
+    def do_ls(self, arg):
+        ls = List(self, arg)
+        ls.execute()
 
 
 def main():
-  shell = ShellAssistCmd()
-  shell.cmdloop()
+    shell = ShellAssistCmd()
+    shell.cmdloop()

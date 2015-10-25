@@ -5,101 +5,97 @@ from shellassist.calendar import time_functions
 
 
 class Add(object):
+    """ Add command class
+    Usage (short hand): add <start time> <end time> <event>
+    Usage (standard): add
+    """
 
-  """ Add command class
-  Usage (short hand): add <start time> <end time> <event>
-  Usage (standard): add
-  """
+    def __init__(self, shell, arg):
+        self.shell = shell
+        self.arg = arg
 
-  def __init__(self, shell, arg):
-    self.shell = shell
-    self.arg = arg
+    def parse(self):
+        split_arg = self.arg.split()
+        if len(split_arg) < 3:
+            raise InvalidUserInputError("ERROR: add requires three arguments")
+        else:
+            try:
+                self.start_time = time_functions.parse_time(split_arg[0])
+                self.end_time = time_functions.parse_time(split_arg[1])
+                self.activity_descr = " ".join(split_arg[2:])
+            except:
+                raise
 
-  def parse(self):
-    split_arg = self.arg.split()
-    if len(split_arg) < 3:
-      raise InvalidUserInputError("ERROR: add requires three arguments")
-    else:
-      self.start_time = split_arg[0]
-      self.end_time = split_arg[1]
-      self.activity_descr = " ".join(split_arg[2:])
+    def execute(self):
+        try:
+            if self.arg:
+                self.execute_shorthand()
+            else:
+                self.execute_full()
+        except InvalidUserInputError as err:
+            print err
+        except:
+            raise
 
-  def validate(self):
-    # try:
-    #   start_time = time_functions.parse_time(self.start_time)
-    #   end_time = time_functions.parse_time(self.end_time)
-    # except ValueError as err:
-    #   print err
-    pass
+    def execute_shorthand(self):
+        try:
+            self.parse()
 
-  def execute(self):
-    try:
-      if self.arg:
-        self.execute_shorthand()
-      else:
-        self.execute_full()
-    except InvalidUserInputError as err:
-      print err
-    except:
-      raise
+            # Create & Save activity
+            new_activity = Activity(
+                self.start_time,
+                self.end_time,
+                self.activity_descr)
 
-  def execute_shorthand(self):
-    try:
-      # First parse arguments
-      self.parse()
+            current_year_number = self.shell.current_date.year
+            current_month_number = self.shell.current_date.month
+            current_day_number = self.shell.current_date.day
 
-      # Then validate arguments
-      self.validate()
+            current_year = Calendar.load_year(current_year_number)
+            current_month = current_year.get_month(current_month_number)
+            current_day = current_month.get_day(current_day_number)
+            current_day.add_activity(new_activity)
 
-      # Create & Save activity
+            Calendar.save_year(current_year)
+            print "Activity successfuly added."
 
-      new_activity = Activity(
-          self.start_time,
-          self.end_time,
-          self.activity_descr)
+        except InvalidUserInputError as err:
+            print err
+        except:
+            raise
 
-      current_year_number = self.shell.current_date.year
-      current_month_number = self.shell.current_date.month
-      current_day_number = self.shell.current_date.day
+    def execute_full(self):
+        # Query events of current day
+        current_year_number = self.shell.current_date.year
+        current_month_number = self.shell.current_date.month
+        current_day_number = self.shell.current_date.day
 
-      current_year = Calendar.load_year(current_year_number)
-      current_month = current_year.get_month(current_month_number)
-      current_day = current_month.get_day(current_day_number)
-      current_day.add_activity(new_activity)
+        current_year = Calendar.load_year(current_year_number)
+        current_month = current_year.get_month(current_month_number)
+        current_day = current_month.get_day(current_day_number)
 
-      Calendar.save_year(current_year)
-      print "Activity successfuly added."
+        while True:
+            try:
+                start_time = time_functions.parse_time(
+                    raw_input("Enter start time: "))
+                break
+            except ValueError:
+                print "Invalid time, please try again..."
 
-    except InvalidUserInputError as err:
-      print err
-    except:
-      raise
+        while True:
+            try:
+                end_time = time_functions.parse_time(
+                    raw_input("Enter end time: "))
+                break
+            except ValueError:
+                print "Invalid time, please try again"
 
-  def execute_full(self):
-    try:
-      # Query events of current day
-      current_year_number = self.shell.current_date.year
-      current_month_number = self.shell.current_date.month
-      current_day_number = self.shell.current_date.day
+        description = raw_input("Enter activity description: ")
 
-      current_year = Calendar.load_year(current_year_number)
-      current_month = current_year.get_month(current_month_number)
-      current_day = current_month.get_day(current_day_number)
+        new_activity = Activity(start_time,
+                                end_time,
+                                description)
 
-      start_time = raw_input("Enter start time: ")
-      end_time = raw_input("Enter end time: ")
-      description = raw_input("Enter activity description: ")
-
-      new_activity = Activity(
-          start_time,
-          end_time,
-          description)
-
-      current_day.add_activity(new_activity)
-      Calendar.save_year(current_year)
-      print "Activity successfuly added."
-
-    except InvalidUserInputError as err:
-      print err
-    except:
-      raise
+        current_day.add_activity(new_activity)
+        Calendar.save_year(current_year)
+        print "Activity successfuly added."
