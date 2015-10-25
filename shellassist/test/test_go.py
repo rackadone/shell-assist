@@ -36,3 +36,43 @@ class ParseArgTestCase(unittest.TestCase):
         go = Go(shell, '-3')
         parsed_time = go.parse()
         self.assertEqual(parsed_time, target_date)
+
+    def test_validDateArg5_validTime(self):
+        shell = ShellAssistCmd()
+        shell.current_date = date(2015, 5, 25)
+        target_date = date(2015, 10, 5)
+        go = Go(shell, '10/5')
+        parsed_time = go.parse()
+        self.assertEqual(parsed_time, target_date)
+
+    def test_validDateArg6_validTime(self):
+        shell = ShellAssistCmd()
+        shell.current_date = date(2015, 5, 25)
+        target_date = date(2015, 1, 5)
+        go = Go(shell, '1/5')
+        parsed_time = go.parse()
+        self.assertEqual(parsed_time, target_date)
+
+    def test_validDateArg7_validTime(self):
+        shell = ShellAssistCmd()
+        shell.current_date = date(2015, 5, 25)
+        target_date = date(2015, 1, 25)
+        go = Go(shell, '1/25')
+        parsed_time = go.parse()
+        self.assertEqual(parsed_time, target_date)
+
+    def test_validDateArg8_validTime(self):
+        shell = ShellAssistCmd()
+        shell.current_date = date(2015, 5, 25)
+        target_date = date(2015, 11, 25)
+        go = Go(shell, '11/25')
+        parsed_time = go.parse()
+        self.assertEqual(parsed_time, target_date)
+
+    def test_validDateArg9_validTime(self):
+        shell = ShellAssistCmd()
+        shell.current_date = date(2015, 5, 25)
+        target_date = date(2015, 5, 5)
+        go = Go(shell, '5')
+        parsed_time = go.parse()
+        self.assertEqual(parsed_time, target_date)

@@ -82,24 +82,36 @@ class Remove(object):
                 print("No activities on this day")
                 # End execution
             else:
-                print("Enter number of activity you would like to remove:")
-
                 for i in range(0, len(activities)):
                     print(str(i + 1) + '. ' + activities[i].formatted_string())
 
-                choice = input(">> ")
+                print(
+                    "\nEnter number of activity you would like to remove" +
+                    "(enter c to cancel):")
 
-                while int(choice) < 1 or int(choice) > len(activities):
-                    print("Invalid number, please re enter a number")
+                while True:
                     choice = input(">> ")
+                    exit_options = ['c', 'cancel', 'exit']
+                    if choice in exit_options:
+                        break
+                    try:
+                        if int(choice) < 1 or int(choice) > len(activities):
+                            print(
+                                "Number out of range! (select between 1 and " +
+                                len(activities))
+                        else:
+                            if current_day.remove_activity(int(choice) - 1):
+                                Calendar.save_year(current_year)
+                                print("You removed event # " + str(choice))
+                                break
+                            else:
+                                raise InvalidUserInputError("Invalid number")
 
-                if current_day.remove_activity(int(choice) - 1):
-                    Calendar.save_year(current_year)
-                    print("You removed event # " + str(choice))
-                else:
-                    raise InvalidUserInputError("Invalid number")
+                    except ValueError:
+                        print("Invalid number, please re enter a number")
+                        choice = input(">> ")
 
-        except InvalidUserInputError as err:
-            print(err)
+                    except InvalidUserInputError as err:
+                        print(err)
         except:
             raise

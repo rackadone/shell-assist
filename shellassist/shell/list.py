@@ -36,11 +36,17 @@ class List(object):
             if len(current_day.activities) == 0:
                 print("There are no activities this day")
             else:
-                print(' #         Time           Activity')
-                print('---  -----------------   ------------')
-                # print '     10:00AM ~ 11:00AM : workout'
-                for activity in current_day.activities:
-                    print('     ' + activity.formatted_string())
+                print(' #           Time           Activity')
+                print('---    -----------------   ------------')
+
+                for i in range(0, len(current_day.activities)):
+                    index = str(i + 1)
+                    if i < 10:
+                        index += ' '
+                    print (
+                        ' ' + index +
+                        '     ' +
+                        current_day.activities[i].formatted_string())
 
         except InvalidUserInputError as err:
             print(err)

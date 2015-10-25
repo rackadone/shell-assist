@@ -74,18 +74,24 @@ class Add(object):
         current_month = current_year.get_month(current_month_number)
         current_day = current_month.get_day(current_day_number)
 
+        exit_options = ['c', 'cancel', 'exit']
+
         while True:
             try:
-                start_time = time_functions.parse_time(
-                    input("Enter start time: "))
+                user_input = input("Enter start time (enter c to cancel): ")
+                if user_input in exit_options:
+                    return
+                start_time = time_functions.parse_time(user_input)
                 break
             except ValueError:
                 print("Invalid time, please try again...")
 
         while True:
             try:
-                end_time = time_functions.parse_time(
-                    input("Enter end time: "))
+                user_input = input("Enter end time (enter c to cancel): ")
+                if user_input in exit_options:
+                    return
+                end_time = time_functions.parse_time(user_input)
                 break
             except ValueError:
                 print("Invalid time, please try again")
