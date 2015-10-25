@@ -44,8 +44,3 @@ class ShellAssistCmd(cmd.Cmd):
     def do_ls(self, arg):
         ls = List(self, arg)
         ls.execute()
-
-
-def main():
-    shell = ShellAssistCmd()
-    shell.cmdloop()

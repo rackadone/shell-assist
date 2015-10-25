@@ -1,2 +1,3 @@
-from shellassist.application import main
-main()
+from shellassist.application import ShellAssistCmd
+shell = ShellAssistCmd()
+shell.cmdloop()
