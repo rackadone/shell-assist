@@ -1,2 +1,2 @@
 #!/bin/bash
-python -m unittest discover shellassist/test -v
+python3 -m unittest discover shellassist/test -v

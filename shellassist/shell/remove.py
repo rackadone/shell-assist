@@ -15,9 +15,9 @@ class Remove(object):
 
     def parse(self):
         if self.arg:
-            print "there is an argument"
+            print("there is an argument")
         else:
-            print "there is no argument"
+            print("there is no argument")
 
     def validate(self):
         """ Don't validate yet.
@@ -31,7 +31,7 @@ class Remove(object):
             else:
                 self.execute_full()
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise
 
@@ -51,18 +51,18 @@ class Remove(object):
             activities = current_day.activities
 
             if len(activities) <= 0:
-                print "No activities on this day"
+                print("There are no activities this day")
                 # End execution
             elif choice >= 1 and choice <= len(activities):
                 if current_day.remove_activity(choice - 1):
                     Calendar.save_year(current_year)
-                    print "You removed event # " + str(choice)
+                    print("You removed event # " + str(choice))
                 else:
                     raise InvalidUserInputError("Invalid number")
             else:
-                print "No activity # " + str(choice)
+                print("No activity # " + str(choice))
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise
 
@@ -79,27 +79,27 @@ class Remove(object):
             activities = current_day.activities
 
             if len(activities) <= 0:
-                print "No activities on this day"
+                print("No activities on this day")
                 # End execution
             else:
-                print "Enter number of activity you would like to remove:"
+                print("Enter number of activity you would like to remove:")
 
                 for i in range(0, len(activities)):
-                    print str(i + 1) + '. ' + activities[i].formatted_string()
+                    print(str(i + 1) + '. ' + activities[i].formatted_string())
 
-                choice = raw_input(">> ")
+                choice = input(">> ")
 
                 while int(choice) < 1 or int(choice) > len(activities):
-                    print "Invalid number, please re enter a number"
-                    choice = raw_input(">> ")
+                    print("Invalid number, please re enter a number")
+                    choice = input(">> ")
 
                 if current_day.remove_activity(int(choice) - 1):
                     Calendar.save_year(current_year)
-                    print "You removed event # " + str(choice)
+                    print("You removed event # " + str(choice))
                 else:
                     raise InvalidUserInputError("Invalid number")
 
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise

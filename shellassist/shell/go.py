@@ -1,5 +1,7 @@
-from shellassist.calendar import date_functions
 from shellassist.shell.exceptions import InvalidUserInputError
+from datetime import date
+from datetime import timedelta
+import re
 
 
 class Go(object):
@@ -13,59 +15,39 @@ class Go(object):
         self.arg = arg
 
     def parse(self):
-        split_arg = self.arg.split()
+        try:
+            standard_format = re.compile(r"""
+                (^\d\d/\d\d/\d\d\d\d$)|
+                (^\d\d/\d/\d\d\d\d$)|
+                (^\d/\d\d/\d\d\d\d$)|
+                (^\d/\d/\d\d\d\d$)""", re.VERBOSE)
 
-        if len(split_arg) == 0:
-            raise InvalidUserInputError("ERROR: No arguments received")
+            relative_format = re.compile(r"""
+                (^\+\d)|(^\-\d)""", re.VERBOSE)
 
-        if len(split_arg) > 1:
-            raise InvalidUserInputError(
-                "ERROR: More than one argument received")
-
-        # Check if user entered date is in correct format
-        date_string = split_arg[0]
-        split_date_string = date_string.split('/')
-
-        if len(split_date_string) != 3:
-            raise InvalidUserInputError("ERROR: Invalid date argument")
-
-        # save parsed argument
-        self.raw_day = split_date_string[1]
-        self.raw_month = split_date_string[0]
-        self.raw_year = split_date_string[2]
-
-    def validate(self):
-        """ Validate user arguments
-        raise exceptions when user arguments
-        are invalid
-        """
-        if not date_functions.validate_day(self.raw_day):
-            raise InvalidUserInputError(
-                "ERROR: Invalid day: " + self.raw_day)
-        if not date_functions.validate_month(self.raw_month):
-            raise InvalidUserInputError(
-                "ERROR: Invalid month: " + self.raw_month)
-        if not date_functions.validate_year(self.raw_year):
-            raise InvalidUserInputError(
-                "ERROR: Invalid year: " + self.raw_year)
+            if standard_format.match(self.arg):
+                split_arg = self.arg.split('/')
+                month = int(split_arg[0])
+                day = int(split_arg[1])
+                year = int(split_arg[2])
+                return date(year, month, day)
+            elif relative_format.match(self.arg):
+                op = self.arg[0]
+                day_count = int(self.arg[1:])
+                if op == '+':
+                    return self.shell.current_date + timedelta(day_count)
+                else:
+                    return self.shell.current_date - timedelta(day_count)
+            else:
+                raise InvalidUserInputError('Invalid time input')
+        except ValueError:
+            raise
 
     def execute(self):
         try:
             # First parse arguments
-            self.parse()
-
-            # Then validate arguments
-            self.validate()
-
-            # Then Execute command
-            day = int(self.raw_day)
-            month = int(self.raw_month)
-            year = int(self.raw_year)
-
-            self.shell.current_date = date_functions.get_date(
-                day=day, month=month, year=year)
-
+            self.shell.current_date = self.parse()
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise

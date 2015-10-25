@@ -34,15 +34,15 @@ class List(object):
             current_day = current_month.get_day(current_day_number)
 
             if len(current_day.activities) == 0:
-                print "There are no activities this day"
+                print("There are no activities this day")
             else:
-                print ' #         Time           Activity'
-                print '---  -----------------   ------------'
+                print(' #         Time           Activity')
+                print('---  -----------------   ------------')
                 # print '     10:00AM ~ 11:00AM : workout'
                 for activity in current_day.activities:
-                    print '     ' + activity.formatted_string()
+                    print('     ' + activity.formatted_string())
 
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise

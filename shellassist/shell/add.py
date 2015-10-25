@@ -33,7 +33,7 @@ class Add(object):
             else:
                 self.execute_full()
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise
 
@@ -57,10 +57,10 @@ class Add(object):
             current_day.add_activity(new_activity)
 
             Calendar.save_year(current_year)
-            print "Activity successfuly added."
+            print("Activity successfuly added.")
 
         except InvalidUserInputError as err:
-            print err
+            print(err)
         except:
             raise
 
@@ -77,20 +77,20 @@ class Add(object):
         while True:
             try:
                 start_time = time_functions.parse_time(
-                    raw_input("Enter start time: "))
+                    input("Enter start time: "))
                 break
             except ValueError:
-                print "Invalid time, please try again..."
+                print("Invalid time, please try again...")
 
         while True:
             try:
                 end_time = time_functions.parse_time(
-                    raw_input("Enter end time: "))
+                    input("Enter end time: "))
                 break
             except ValueError:
-                print "Invalid time, please try again"
+                print("Invalid time, please try again")
 
-        description = raw_input("Enter activity description: ")
+        description = input("Enter activity description: ")
 
         new_activity = Activity(start_time,
                                 end_time,
@@ -98,4 +98,4 @@ class Add(object):
 
         current_day.add_activity(new_activity)
         Calendar.save_year(current_year)
-        print "Activity successfuly added."
+        print("Activity successfuly added.")

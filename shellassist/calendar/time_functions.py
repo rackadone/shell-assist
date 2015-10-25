@@ -2,14 +2,6 @@ from datetime import time
 import re
 
 
-def get_time(hour=None, minute=None):
-    if hour is not None and minute is not None:
-        return time(hour, minute)
-    # Not ideal, should handle all edge cases
-    # Instead of blanket except here.
-    # Maybe use the validation functions below here?
-
-
 def parse_time(arg):
     """ Returns datetime.time object
     based on parsed argument string
@@ -103,7 +95,7 @@ def parse_time(arg):
     except ValueError:
         raise
     except:
-        print "Unexpected exception"
+        print("Unexpected exception")
         raise
 
 

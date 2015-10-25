@@ -16,7 +16,7 @@ class ShellAssistCmd(cmd.Cmd):
         self.prompt = '[ ' + date_string + ' ] > '
 
     def preloop(self):
-        print "Running Shell Assist..."
+        print("Running Shell Assist...")
         self.update_prompt()
 
     def postcmd(self, stop, line):
